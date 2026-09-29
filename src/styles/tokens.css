@@ -1,0 +1,42 @@
+:root {
+  --azul: #1b4f9c;
+  --azul-t: #e8f0fb;
+  --gris: #565e6b;
+  --gris-t: #eef0f3;
+  --ambar: #8a5200;
+  --ambar-t: #fff4e0;
+  --verde: #1a6b3c;
+  --verde-t: #e6f4eb;
+  --rojo: #b3261e;
+  --rojo-t: #fdecea;
+
+  --fondo: #f7f8fa;
+  --superficie: #ffffff;
+  --texto: #14181f;
+  --texto-2: #565e6b;
+  --borde: #c3c9d2;
+  --borde-fuerte: #8d95a1;
+
+  --base: 18px;
+  --t-xs: 0.78rem;
+  --t-sm: 0.89rem;
+  --t-md: 1rem;
+  --t-lg: 1.22rem;
+  --t-xl: 1.44rem;
+  --t-2xl: 1.78rem;
+
+  --e1: 4px;
+  --e2: 8px;
+  --e3: 12px;
+  --e4: 16px;
+  --e5: 24px;
+  --e6: 32px;
+
+  --r: 8px;
+  --toque: 48px;
+  --nav: 232px;
+  --barra: 60px;
+}
+
+:root[data-font='large'] { --base: 21px; }
+:root[data-font='xlarge'] { --base: 24px; }
