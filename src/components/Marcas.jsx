@@ -22,13 +22,15 @@ export function MarcaEnvio({ envio = 'local' }) {
   return <Dist color={e.color} icono={e.icono}>{e.texto}</Dist>
 }
 
-const CASO = { tramite: 'azul', conciliacion: 'ambar', concluido: 'verde' }
+const CASO = { tramite: 'gris', conciliacion: 'azul', concluido: 'verde' }
+
+const ICONO_CASO = { tramite: 'Clock', conciliacion: 'Users', concluido: 'CircleCheckBig' }
 
 export function MarcaEstadoCaso({ estado }) {
-  return <Dist color={CASO[estado] || 'gris'} icono={estado === 'concluido' ? 'CircleCheckBig' : 'Clock'}>{et(ESTADOS_CASO, estado)}</Dist>
+  return <Dist color={CASO[estado] || 'gris'} icono={ICONO_CASO[estado] || 'Clock'}>{et(ESTADOS_CASO, estado)}</Dist>
 }
 
-const ATENCION = { pendiente: 'ambar', atendida: 'azul', concluida: 'verde' }
+const ATENCION = { pendiente: 'gris', atendida: 'azul', concluida: 'verde' }
 
 export function MarcaEstadoAtencion({ estado }) {
   return <Dist color={ATENCION[estado] || 'gris'} icono={estado === 'concluida' ? 'CircleCheckBig' : 'Clock'}>{et(ESTADOS_ATENCION, estado)}</Dist>
@@ -46,7 +48,8 @@ export function MarcaCategoria({ categoria }) {
 
 export function MarcaAtencion({ motivo }) {
   if (!motivo) return null
-  return <Dist color="rojo" icono="TriangleAlert">{motivo}</Dist>
+  const urgente = motivo === 'Cita vencida'
+  return <Dist color={urgente ? 'rojo' : 'ambar'} icono={urgente ? 'TriangleAlert' : 'Clock'}>{motivo}</Dist>
 }
 
 export function MarcaBorrador({ tipo, registro }) {

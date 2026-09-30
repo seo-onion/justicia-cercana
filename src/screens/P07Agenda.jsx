@@ -104,7 +104,7 @@ export default function P07Agenda() {
                   <b>{Number(d.slice(8))}</b>
                   {l.slice(0, 3).map((a) => (
                     <span key={a.id} className={`pildora dist-${catDe(a).color}`}>
-                      <Icono n={catDe(a).icono} t={14} /> {a.titulo.length > 14 ? `${a.titulo.slice(0, 13)}…` : a.titulo}
+                      <Icono n={catDe(a).icono} t={14} /> {a.titulo.length > 20 ? `${a.titulo.slice(0, 19)}…` : a.titulo}
                     </span>
                   ))}
                   {l.length > 3 && <span>+{l.length - 3} más</span>}

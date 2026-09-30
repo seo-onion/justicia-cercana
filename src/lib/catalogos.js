@@ -20,7 +20,7 @@ export const ACTUACIONES = [
 
 export const ACTUACIONES_VISIBLES = 4
 
-export const COMUNIDADES = ['Huayllay', 'San Pedro de Racco', 'Vicco', 'Ninacaca', 'Carhuamayo', 'Tambopata']
+export const COMUNIDADES = ['Huayllay', 'San Pedro de Racco', 'Vicco', 'Ninacaca', 'Carhuamayo', 'Huachón']
 
 export const DOCUMENTOS = [
   { id: 'dni', etiqueta: 'DNI' },
@@ -46,10 +46,10 @@ export const ESTADOS_ATENCION = [
 ]
 
 export const CATEGORIAS = [
-  { id: 'audiencia', etiqueta: 'Audiencia', icono: 'Gavel', color: 'azul' },
-  { id: 'reunion', etiqueta: 'Reunión', icono: 'Users', color: 'verde' },
-  { id: 'visita', etiqueta: 'Visita a comunidad', icono: 'MapPin', color: 'ambar' },
-  { id: 'otra', etiqueta: 'Otra', icono: 'Calendar', color: 'gris' }
+  { id: 'audiencia', etiqueta: 'Audiencia', icono: 'Gavel', color: 'cat1' },
+  { id: 'reunion', etiqueta: 'Reunión', icono: 'Users', color: 'cat2' },
+  { id: 'visita', etiqueta: 'Visita a comunidad', icono: 'MapPin', color: 'cat3' },
+  { id: 'otra', etiqueta: 'Otra', icono: 'Calendar', color: 'cat4' }
 ]
 
 export const ESTADOS_ACTIVIDAD = [

@@ -10,6 +10,15 @@
   --rojo: #b3261e;
   --rojo-t: #fdecea;
 
+  --cat1: #3d3a8c;
+  --cat1-t: #ecebf7;
+  --cat2: #0f5e63;
+  --cat2-t: #e3f1f2;
+  --cat3: #8a3f1e;
+  --cat3-t: #fbede7;
+  --cat4: #44506a;
+  --cat4-t: #edf0f4;
+
   --fondo: #f7f8fa;
   --superficie: #ffffff;
   --texto: #14181f;
@@ -18,8 +27,8 @@
   --borde-fuerte: #8d95a1;
 
   --base: 18px;
-  --t-xs: 0.78rem;
-  --t-sm: 0.89rem;
+  --t-xs: 0.86rem;
+  --t-sm: 0.94rem;
   --t-md: 1rem;
   --t-lg: 1.22rem;
   --t-xl: 1.44rem;

@@ -85,26 +85,36 @@ tabla = ['\\footnotesize\n\\setlength{\\tabcolsep}{4pt}\n\\begin{longtable}{@{}p
 # --- tactil ---
 if tactil:
     f = tactil['filas']
+    TAM = [('normal', 'Normal'), ('large', 'Grande'), ('xlarge', 'Muy grande')]
+    presentes = [(k, n) for k, n in TAM if any(x['letra'] == k for x in f)]
     pantallas = sorted({x['pantalla'] for x in f})
     filas = []
     for p in pantallas:
-        n = [x for x in f if x['pantalla'] == p and x['letra'] == 'normal']
-        g = [x for x in f if x['pantalla'] == p and x['letra'] == 'large']
-        filas.append(f"{esc(p)} & {n[0]['controles'] if n else '-'} & {n[0]['fallos'] if n else '-'} & "
-                     f"{g[0]['controles'] if g else '-'} & {g[0]['fallos'] if g else '-'} \\\\")
-    total_n = sum(x['controles'] for x in f if x['letra'] == 'normal')
-    total_g = sum(x['controles'] for x in f if x['letra'] == 'large')
-    t = ['\\small\n\\begin{longtable}{@{}p{6.2cm}rrrr@{}}', r'\toprule',
-         r'\textbf{Pantalla} & \multicolumn{2}{c}{\textbf{Letra normal}} & \multicolumn{2}{c}{\textbf{Letra grande}} \\',
-         r' & controles & fallos & controles & fallos \\', r'\midrule', r'\endfirsthead',
-         r'\toprule', r'\textbf{Pantalla} & controles & fallos & controles & fallos \\', r'\midrule', r'\endhead',
+        celdas = []
+        for k, _ in presentes:
+            g = [x for x in f if x['pantalla'] == p and x['letra'] == k]
+            celdas += [str(g[0]['controles']) if g else '-', str(g[0]['fallos']) if g else '-']
+        filas.append(f"{esc(p)} & " + ' & '.join(celdas) + r' \\')
+    totales = []
+    for k, _ in presentes:
+        totales += [str(sum(x['controles'] for x in f if x['letra'] == k)),
+                    str(len([x for x in tactil['fallos'] if x['letra'] == k]))]
+    gran = sum(x['controles'] for x in f)
+    cols = '@{}p{5.4cm}' + 'rr' * len(presentes) + '@{}'
+    cab1 = r'\textbf{Pantalla}' + ''.join(f' & \\multicolumn{{2}}{{c}}{{\\textbf{{{n}}}}}' for _, n in presentes) + r' \\'
+    cab2 = '' + ' & controles & fallos' * len(presentes) + r' \\'
+    t = ['\\small', '\\setlength{\\tabcolsep}{4pt}', '\\begin{longtable}{' + cols + '}', r'\toprule', cab1, cab2,
+         r'\midrule', r'\endfirsthead', r'\toprule', cab1, cab2, r'\midrule', r'\endhead',
          r'\bottomrule', r'\endfoot'] + filas + [
-         r'\midrule', f"\\textbf{{Total}} & \\textbf{{{total_n}}} & \\textbf{{{len([x for x in tactil['fallos'] if x['letra']=='normal'])}}} & \\textbf{{{total_g}}} & \\textbf{{{len([x for x in tactil['fallos'] if x['letra']=='large'])}}} \\\\",
+         r'\midrule',
+         r'\textbf{Total} & ' + ' & '.join(f'\\textbf{{{x}}}' for x in totales) + r' \\',
          r'\end{longtable}']
     (SALIDA / 'tactil.tex').write_text('\n'.join(t), encoding='utf-8')
+    nombres = ', '.join(n for _, n in presentes[:-1]) + ' y ' + presentes[-1][1] if len(presentes) > 1 else presentes[0][1]
     (SALIDA / 'tactil_resumen.tex').write_text(
-        f"Se midieron {total_n + total_g} controles en {len(pantallas)} pantallas, con letra normal y con letra grande. "
-        f"Ninguno queda por debajo de 48 por 48 px ni a menos de 8 px de su vecino.", encoding='utf-8')
+        f"Se midieron {gran} controles en {len(pantallas)} pantallas, repitiendo la medición con cada "
+        f"tamaño de letra ({nombres}). Ninguno queda por debajo de 48 por 48 px ni a menos de 8 px de su vecino.",
+        encoding='utf-8')
 
 # --- contraste ---
 if contraste:

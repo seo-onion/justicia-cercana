@@ -70,7 +70,7 @@ Isaac Percy Gamero del Aguila\par}
 
 La jueza de paz de Huayllay atiende casos de conflictos entre vecinos, trámites notariales y una agenda de audiencias y visitas a comunidades. Hoy anota todo en cuadernos y viaja a la sede del Poder Judicial para entregar la información.
 
-Tiene poca experiencia con aplicaciones, usa la tableta apoyada en una mesa, a menudo al aire libre, y trabaja en comunidades donde el Internet aparece y desaparece. Muchas veces registra los datos delante de las partes, que están esperando.
+Del enunciado sale que tiene poca experiencia con aplicaciones y que trabaja en comunidades donde el Internet aparece y desaparece. El enunciado no dice más. Suponemos, y lo declaramos como supuesto de diseño, que usa la tableta apoyada en una mesa, a menudo al aire libre, y que registra los datos delante de las partes, que esperan. De ese supuesto sale la posición de los botones y la orientación fija.
 
 De ahí salen las cuatro exigencias que gobiernan todo el diseño: la aplicación tiene que funcionar sin Internet y decirlo con claridad, hablar en lenguaje cotidiano, tener objetivos grandes para el dedo, y no perder nada de lo que ya se escribió.
 
@@ -89,16 +89,18 @@ El color nunca va solo: siempre lo acompañan un ícono y un texto.
 \toprule
 \textbf{Color} & \textbf{Significado único} & \textbf{Ejemplos} \\
 \midrule
-Azul & Información neutra, acción principal & Botón Guardar, «Con Internet» \\
-Gris & Estado normal sin alerta o inactivo & «Sin Internet», actividad cancelada \\
-Ámbar & Falta enviar o requiere atención pronto & «4 registros por enviar», «En la tableta» \\
-Verde & Enviado o terminado con éxito & «Todo enviado», «Enviado», caso concluido \\
-Rojo & Error que requiere una acción de la jueza & Error de validación, envío fallido, cita vencida \\
+Azul & Información neutra, acción principal & Botón Guardar, «Con Internet», «En conciliación», «Atendida» \\
+Gris & Estado normal, sin alerta & «Sin Internet», «En trámite», «Pendiente», actividad cancelada \\
+Ámbar & Falta enviar o requiere atención pronto & «4 registros por enviar», «En la tableta», «Cita hoy», «22 días sin avance» \\
+Verde & Enviado o terminado con éxito & «Todo enviado», «Enviado», caso concluido, trámite concluido \\
+Rojo & Error que requiere una acción de la jueza & Error de validación, envío fallido, «Cita vencida» \\
 \bottomrule
 \end{tabular}
 \end{center}
 
-«Sin Internet» va en gris y nunca en rojo: en campo es el estado normal y no debe generar alarma.
+«Cita vencida» es roja porque exige actuar; «Cita hoy» es ámbar porque avisa de algo próximo. «Sin Internet» va en gris y nunca en rojo: en campo es el estado normal y no debe generar alarma.
+
+Las cuatro categorías de la agenda usan una paleta aparte, sin significado de estado: índigo para Audiencia, verde azulado para Reunión, terracota para Visita a comunidad y pizarra para Otra. Si una categoría reusara el ámbar, una jueza que aprendió que ámbar significa «falta enviar» leería «visitas que faltan enviar». Cada categoría lleva además su ícono y su nombre, así que el color nunca es la única señal.
 
 \subsection{La barra de estado}
 
@@ -141,6 +143,52 @@ Los códigos se generan sin conexión y son definitivos: \texttt{JZ04-TAB01-2026
 \end{center}
 
 La columna de la izquierda es la única que ve la jueza. La de la derecha no aparece en ninguna pantalla.
+
+\section{Bocetos a mano alzada}
+
+El diseño empezó en papel cuadriculado. Los tres bocetos de esta sección se dibujaron antes de
+escribir una línea de código, y sirven para ver qué decisiones venían de la idea original y cuáles
+aparecieron al construir el prototipo.
+
+\subsection{Inicio}
+
+\begin{figure}[H]\centering
+\includegraphics[width=0.84\linewidth]{bocetos/boceto-inicio.jpg}
+\caption{Boceto de la pantalla de Inicio: barra de estado arriba, menú lateral de cuatro opciones con ícono y texto, «Hoy» a lo ancho, y debajo dos columnas: casos que requieren atención y los próximos 7 días.}
+\end{figure}
+
+El esqueleto se mantuvo tal cual: la barra de estado ocupa todo el ancho arriba, el menú lateral tiene
+cuatro opciones y el cuerpo reparte «Hoy» a lo ancho con las dos columnas debajo. Lo que se añadió
+después son los tres accesos grandes del final (Nuevo caso, Nueva actuación, Nueva actividad), que en
+el boceto no existían: al recorrer el flujo completo se vio que la jueza empieza a registrar mientras
+la persona todavía está hablando, y desde Inicio eso costaba dos toques en vez de uno.
+
+\subsection{Casos y Actuaciones}
+
+\begin{figure}[H]\centering
+\includegraphics[width=0.84\linewidth]{bocetos/boceto-casos.jpg}
+\caption{Boceto de las dos listas: buscador con lupa, una fila de filtros en botones, las filas del listado con sus marcas al final, y el botón de registro nuevo.}
+\end{figure}
+
+De aquí salió que los filtros fueran botones visibles y no listas desplegables, y que cada fila
+terminara en sus marcas de estado. Dos cosas cambiaron. La primera: en el boceto el botón de registro
+nuevo está abajo a la derecha en Casos y arriba a la derecha en Actuaciones; en el prototipo los dos
+quedaron abajo a la derecha, porque una acción que cambia de sitio entre dos pantallas gemelas obliga
+a buscarla cada vez (H4, consistencia). La segunda: los filtros del boceto eran una sola fila de
+botones sin rótulo, y al llenarlos con datos reales hubo que agruparlos y nombrarlos (Comunidad,
+Estado, Tipo) y añadir la casilla «Mostrar solo borradores», que no estaba prevista.
+
+\subsection{Agenda}
+
+\begin{figure}[H]\centering
+\includegraphics[width=0.84\linewidth]{bocetos/boceto-agenda.jpg}
+\caption{Boceto de la Agenda: aviso de lo próximo con sus horas arriba, buscador, dos filas de filtros y las actividades del día en tarjetas por hora.}
+\end{figure}
+
+El aviso de lo próximo con la hora al frente, el buscador y las tarjetas por hora pasaron al prototipo
+sin cambios. Lo que se agregó es el selector Mes, Semana y Día: el boceto resolvía un solo nivel de
+detalle, y al probar el flujo de la semana quedó claro que planificar un viaje a una comunidad lejana
+necesita ver el mes entero, mientras que preparar una audiencia necesita ver el día.
 
 \section{Ingreso y primeras pantallas}
 
@@ -325,6 +373,8 @@ Conflicto & Se aplica solo el cambio más reciente en cada campo y se informa cu
 
 Los cuatro mensajes dicen siempre dónde quedaron los registros. El conflicto se resuelve solo para no exigir una comparación campo por campo a una usuaria con poca experiencia digital; la versión descartada queda en el historial y se puede recuperar desde \textbf{Ver y cambiar}.
 
+Esta regla choca con la fecha editable del módulo 1: si el reloj de la tableta está desfasado, «el más reciente» puede elegir mal. Por eso la resolución automática nunca es silenciosa: siempre dice qué campo se tomó y de qué versión, la versión descartada queda en el historial y \textbf{Ver y cambiar} permite volver atrás. Un reloj desfasado puede hacer que la primera elección sea la equivocada, pero no puede hacer que se pierda nada.
+
 \subsection{La vista en computadora}
 
 Es la misma aplicación adaptada a una pantalla de 1440 por 900, con tablas de más columnas y el verbo «Haz clic» en lugar de «Toca». Muestra únicamente lo que ya llegó al Poder Judicial y lo declara: «La tableta envió datos por última vez el 12/05, 18:40. Lo que registró después aún no aparece aquí.» Nunca afirma cuántos registros tiene pendientes la tableta, porque desde ahí eso no se puede saber. Desde la computadora también se consulta, crea y edita, y de ahí nacen los conflictos.
@@ -345,13 +395,15 @@ Batería baja, tamaño de letra y orientación de la tableta.
 
 Al 20\,\% y al 10\,\% de batería la aplicación avisa recordando que lo registrado ya está guardado, e incluye \textbf{Enviar ahora} si hay Internet y quedan pendientes. En zonas rurales la energía es tan escasa como la conexión, y el aviso reduce la ansiedad por pérdida de datos.
 
-El tamaño de letra se cambia desde el menú con tres opciones (18, 21 y 24 píxeles) y se recuerda entre sesiones, por los usuarios mayores con presbicia. El diseño no se rompe en el tamaño mayor.
+El tamaño de letra se cambia desde el menú con tres opciones (18, 21 y 24 píxeles) y se recuerda entre sesiones, por los usuarios mayores con presbicia. Los tres tamaños pasan la medición de objetivos táctiles de la sección de factores humanos.
 
 La aplicación se usa solo en horizontal: el menú lateral, los formularios de tres pasos y la vista semanal necesitan ancho, y un solo diseño evita que la jueza tenga que reaprender dónde está cada cosa. Si se gira la tableta, aparece «Gire la tableta para usarla de lado» con una ilustración.
 
 \input{generado/especiales.tex}
 
 \section{Matriz de justificación}
+
+Los identificadores están agrupados por pantalla: del 1 al 8 los elementos transversales, del 10 al 19 casos, del 20 al 29 actuaciones, del 30 al 39 agenda, del 40 al 49 envío y computadora, del 50 al 55 el ingreso y la ayuda, del 60 al 66 el inicio. Los huecos entre bloques son deliberados: cada bloque queda reservado.
 
 Cada fila es un elemento concreto de una pantalla, no un principio en abstracto. El número de cada fila coincide con el marcador numerado que aparece en las capturas anotadas de la sección siguiente.
 
@@ -371,7 +423,7 @@ Las dos tablas de esta sección no son estimaciones: las genera Playwright midie
 
 \subsection{Objetivos táctiles}
 
-Se midieron todos los botones, enlaces y campos de cada pantalla. El mínimo propio es de 48 por 48 píxeles con 8 píxeles o más de separación, por encima del piso de 44 por 44 que fija WCAG 2.5.5. La medición se repite con el tamaño de letra Grande, porque ahí es donde un diseño ajustado se rompe.
+Se midieron todos los botones, enlaces y campos de cada pantalla. El mínimo propio es de 48 por 48 píxeles con 8 píxeles o más de separación, por encima del piso de 44 por 44 que fija WCAG 2.5.5. La medición se repite con cada tamaño de letra (Normal, Grande y Muy grande), porque ahí es donde un diseño ajustado se rompe. El total del texto suma todas las pasadas; la tabla desglosa por pantalla y por tamaño.
 
 \input{generado/tactil_resumen.tex}
 

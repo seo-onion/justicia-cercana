@@ -255,9 +255,14 @@ export default function P06ActuacionForm({ id }) {
               {(cid) => <input id={cid} type="text" value={referencia} placeholder="Solicitud en cuaderno 4, folio 3" onChange={(e) => ponerReferencia(e.target.value)} />}
             </Campo>
           </Grupo>
-          {falta && (
+          {falta && !Object.keys(err).length && (
             <Aviso tono="ambar" icono="Pencil" titulo="Se guardará como borrador.">
               <p>{falta}</p>
+            </Aviso>
+          )}
+          {ver && Object.keys(err).length > 0 && (
+            <Aviso tono="rojo" icono="TriangleAlert" titulo="Falta completar el trámite para guardarlo.">
+              <p>Revise los campos marcados en rojo, o use [Atrás] y [Guardar como borrador] si todavía no tiene esos datos.</p>
             </Aviso>
           )}
         </div>

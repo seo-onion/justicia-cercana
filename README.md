@@ -41,14 +41,15 @@ La interfaz de la jueza no tiene controles de depuración; todo se maneja por la
 npm install
 npm run dev         # servidor de desarrollo
 npm run build       # construye dist/
-npm run capturas    # genera las 73 capturas y informe/captures.json
+npm run capturas    # genera las capturas y informe/captures.json
 npm run auditoria   # mide objetivos táctiles y contraste con axe-core
 npm run informe     # compila informe/informe.pdf
 python3 scripts/generar_informe.py   # regenera las tablas y figuras del informe
 ```
 
 Las auditorías fallan si algún control baja de 48 por 48 píxeles, si dos quedan a menos de 8 píxeles
-de separación, o si axe-core encuentra un incumplimiento WCAG AA.
+de separación, o si axe-core encuentra un incumplimiento WCAG AA. La medición táctil se repite con
+los tres tamaños de letra.
 
 ## Estructura
 
@@ -58,7 +59,7 @@ src/state/      estado global de la aplicación
 src/components/ componentes compartidos
 src/screens/    pantallas P-00 a P-10
 tests/          capturas y auditorías con Playwright
-informe/        informe.tex, capturas y datos de las auditorías
+informe/        informe.tex, bocetos a mano, capturas y datos de las auditorías
 docs/           contrato de construcción y emulación del dispositivo
 ```
 

@@ -10,7 +10,7 @@ import Ventana from '../components/Ventana.jsx'
 import Nota from '../components/Nota.jsx'
 import { MarcaCategoria, MarcaEstadoActividad, MarcaAtencion, MarcaEstadoCaso } from '../components/Marcas.jsx'
 
-const NOMBRE_TIPO = { caso: 'caso', tramite: 'trámite', actividad: 'actividad' }
+const NOMBRE_TIPO = { caso: 'caso', actuacion: 'trámite', actividad: 'actividad' }
 const hora = (a) => a.horaInicio || 'Sin hora fija'
 const porHora = (a, b) => (a.horaInicio || '99').localeCompare(b.horaInicio || '99')
 const porFecha = (a, b) => a.fecha.localeCompare(b.fecha) || porHora(a, b)
@@ -49,7 +49,7 @@ export default function P01Inicio() {
           <Aviso
             tono="azul"
             icono="Pencil"
-            titulo={`Tenía un ${NOMBRE_TIPO[meta.borrador.tipo]} sin terminar (${meta.borrador.etiqueta}). ¿Desea continuar?`}
+            titulo={`Tenía un ${NOMBRE_TIPO[meta.borrador.tipo] || 'registro'} sin terminar (${meta.borrador.etiqueta}). ¿Desea continuar?`}
             acciones={
               <>
                 <button className="btn btn-1" onClick={() => ir(meta.borrador.ruta)}>Continuar</button>

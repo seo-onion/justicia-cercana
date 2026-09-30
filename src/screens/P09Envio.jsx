@@ -13,8 +13,8 @@ const nombre = (r) => r.codigo || r.titulo
 
 const ESTADO = {
   enviado: { color: 'verde', icono: 'CircleCheckBig', texto: 'Enviado' },
-  corte: { color: 'ambar', icono: 'WifiOff', texto: 'No se envió' },
-  error: { color: 'rojo', icono: 'CircleX', texto: 'No se envió' }
+  corte: { color: 'ambar', icono: 'Tablet', texto: 'En la tableta' },
+  error: { color: 'ambar', icono: 'Tablet', texto: 'En la tableta' }
 }
 
 function Fila({ p, marca }) {
