@@ -1,0 +1,443 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[spanish,es-noquoting]{babel}
+\usepackage[margin=2.2cm]{geometry}
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{longtable}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{pdflscape}
+\usepackage{qrcode}
+\usepackage[hidelinks]{hyperref}
+
+\graphicspath{{./}}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{6pt}
+\renewcommand{\arraystretch}{1.25}
+
+\newcommand{\enlace}{https://seo-onion.github.io/justicia-cercana/}
+\newcommand{\repo}{https://github.com/seo-onion/justicia-cercana}
+
+\begin{document}
+
+\begin{titlepage}
+\centering
+\vspace*{1cm}
+{\large CS2H01 -- Interacción Humano-Computador\par}
+{\large UTEC, semestre 2026-2\par}
+\vspace{1.1cm}
+{\Huge\bfseries Justicia Cercana\par}
+\vspace{0.4cm}
+{\Large Prototipo de registro para el juzgado de paz de Huayllay\par}
+\vspace{0.3cm}
+{\large Examen Parcial\par}
+\vspace{1.2cm}
+
+{\large\bfseries Integrantes\par}
+\vspace{0.3cm}
+{\large
+Sebastian Antonio Hernandez Miñano\par
+Andre Contreras Valera\par
+Isaac Percy Gamero del Aguila\par}
+
+\vspace{1.2cm}
+{\large\bfseries Prototipo publicado\par}
+\vspace{0.3cm}
+\qrcode[height=3.4cm]{\enlace}\par
+\vspace{0.3cm}
+\url{\enlace}\par
+\vspace{0.2cm}
+{\small Código fuente: \url{\repo}}
+
+\vspace{1.1cm}
+\begin{minipage}{0.86\textwidth}
+\textbf{Cómo probarlo}
+\begin{itemize}
+\item PIN de ingreso: \textbf{1234}.
+\item Para volver a los datos de ejemplo, agregue \texttt{?reset=1} al final de la dirección.
+\item Para probarlo sin Internet: abra el enlace una vez, apague los datos o el wifi y vuelva a abrirlo. La aplicación carga igual y todo lo que registre queda guardado en el dispositivo.
+\item El dispositivo previsto es una tableta de 10 pulgadas en horizontal (1280 por 800 píxeles).
+\end{itemize}
+\end{minipage}
+\end{titlepage}
+
+\tableofcontents
+\newpage
+
+\section{El caso y la usuaria}
+
+La jueza de paz de Huayllay atiende casos de conflictos entre vecinos, trámites notariales y una agenda de audiencias y visitas a comunidades. Hoy anota todo en cuadernos y viaja a la sede del Poder Judicial para entregar la información.
+
+Tiene poca experiencia con aplicaciones, usa la tableta apoyada en una mesa, a menudo al aire libre, y trabaja en comunidades donde el Internet aparece y desaparece. Muchas veces registra los datos delante de las partes, que están esperando.
+
+De ahí salen las cuatro exigencias que gobiernan todo el diseño: la aplicación tiene que funcionar sin Internet y decirlo con claridad, hablar en lenguaje cotidiano, tener objetivos grandes para el dedo, y no perder nada de lo que ya se escribió.
+
+\section{Modelo conceptual y estrategia sin conexión}
+
+\subsection{La metáfora del cuaderno}
+
+La aplicación se presenta como el cuaderno que la jueza ya usa, dividido en tres secciones: Casos, Actuaciones y Agenda. El menú lateral tiene exactamente esas tres opciones más Inicio. No hay secciones nuevas que aprender.
+
+\subsection{Significado único de cada color}
+
+El color nunca va solo: siempre lo acompañan un ícono y un texto.
+
+\begin{center}
+\begin{tabular}{@{}p{2.2cm}p{6.2cm}p{6.6cm}@{}}
+\toprule
+\textbf{Color} & \textbf{Significado único} & \textbf{Ejemplos} \\
+\midrule
+Azul & Información neutra, acción principal & Botón Guardar, «Con Internet» \\
+Gris & Estado normal sin alerta o inactivo & «Sin Internet», actividad cancelada \\
+Ámbar & Falta enviar o requiere atención pronto & «4 registros por enviar», «En la tableta» \\
+Verde & Enviado o terminado con éxito & «Todo enviado», «Enviado», caso concluido \\
+Rojo & Error que requiere una acción de la jueza & Error de validación, envío fallido, cita vencida \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+«Sin Internet» va en gris y nunca en rojo: en campo es el estado normal y no debe generar alarma.
+
+\subsection{La barra de estado}
+
+Fija en la parte de arriba de todas las pantallas, tiene dos indicadores y la hora del último envío. Cuando hay registros pendientes y hay Internet, aparece además un botón \textbf{Enviar ahora} visible; tocar la barra también lleva a la pantalla de envío, pero ninguna acción depende de descubrir que la barra se puede tocar.
+
+\input{generado/barra.tex}
+
+\subsection{Distintivo por registro}
+
+Cada caso, trámite y actividad lleva su propio distintivo, en la lista y en el detalle: \textbf{En la tableta} (ámbar, guardado y falta enviar), \textbf{Enviado} (verde) y \textbf{Revisar} (rojo, hubo un problema al enviarlo).
+
+\subsection{Borrador y Completo, la misma regla en los tres módulos}
+
+Todo registro tiene un estado propio (En trámite, Pendiente, Programada) y, aparte, un estado de registro: Borrador o Completo. Es automático: queda Completo cuando cumple sus mínimos. Siempre se puede guardar antes, y en la lista el borrador dice qué le falta: «Borrador · falta: personas». Los tres módulos tienen la casilla \textbf{Mostrar solo borradores}. Los borradores también se envían, marcados como tales, para no perder datos.
+
+\subsection{Guardado automático y recuperación}
+
+Los formularios guardan cada tres segundos y al salir de cada campo, con el texto discreto «Guardado automáticamente hace un momento». Si la aplicación se cierra, al volver a entrar ofrece continuar: «Tenía un caso sin terminar (Juan Quispe, 12/05). ¿Desea continuar?». Descartar pide confirmación.
+
+Si pasan tres días o más con registros sin enviar, Inicio muestra el recordatorio con la consecuencia concreta: si la tableta se pierde o se daña, lo no enviado se perdería.
+
+\subsection{Códigos generados en la tableta}
+
+Los códigos se generan sin conexión y son definitivos: \texttt{JZ04-TAB01-202605-0013} para casos y \texttt{NOT-TAB01-202605-0007} para trámites. El prefijo de tableta evita que choquen con los que crea la computadora de la sede.
+
+\subsection{Glosario de equivalencias con el enunciado}
+
+\begin{center}
+\begin{tabular}{@{}p{7.2cm}p{7.6cm}@{}}
+\toprule
+\textbf{Lo que dice la interfaz} & \textbf{Lo que pide el enunciado} \\
+\midrule
+«4 registros por enviar» & Sincronización pendiente \\
+«Enviar al Poder Judicial», «Enviar ahora» & Sincronizar \\
+«Guardado en la tableta», «En la tableta» & Almacenamiento local \\
+«Sin Internet · puede seguir trabajando» & Modo sin conexión \\
+«Se usó la versión de la computadora» & Resolución de conflictos \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+La columna de la izquierda es la única que ve la jueza. La de la derecha no aparece en ninguna pantalla.
+
+\section{Ingreso y primeras pantallas}
+
+\input{generado/ingreso.tex}
+
+\section{Módulo 1 · Casos}
+
+\subsection{Tareas que permite}
+
+Registrar un caso con varias partes, buscarlo por nombre o DNI, filtrarlo por comunidad, estado y fechas, abrir su detalle, registrar avances y editar sus datos.
+
+\subsection{Campos del caso}
+
+\begin{center}
+\small
+\begin{tabular}{@{}p{2.6cm}p{2.4cm}p{3.0cm}p{6.4cm}@{}}
+\toprule
+\textbf{Campo} & \textbf{Obligatoriedad} & \textbf{Control} & \textbf{Validación y mensaje} \\
+\midrule
+Código & Automático & Solo lectura & Se genera en la tableta y es definitivo \\
+Fecha de registro & Automática, editable & Fecha, hoy prellenado & «La fecha no puede ser posterior a hoy.» \\
+Tipo de conflicto & Obligatorio & Botones grandes & «Elija de qué trata el problema.» \\
+Descripción & Obligatorio & Texto amplio & «Cuente brevemente qué pasó.» \\
+Estado & Obligatorio & Botones segmentados & Concluido exige acuerdo o resultado \\
+Observaciones & Opcional & Texto amplio & --- \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+La fecha de registro es editable porque el reloj de una tableta sin conexión puede estar desfasado.
+
+\subsection{Campos de cada parte}
+
+\begin{center}
+\small
+\begin{tabular}{@{}p{3.0cm}p{2.6cm}p{8.6cm}@{}}
+\toprule
+\textbf{Campo} & \textbf{Obligatoriedad} & \textbf{Validación y mensaje} \\
+\midrule
+Nombres y apellidos & Obligatorio & «Escriba el nombre y al menos un apellido.» \\
+Tipo de documento & Opcional & DNI, carné de extranjería, otro, no tiene, no lo tiene a la mano \\
+Número de documento & Condicional & «El DNI tiene 8 números. Revíselo o elija No lo tiene a la mano.» \\
+Teléfono o contacto & Opcional & «El celular tiene 9 números.» Casilla «No tiene» \\
+Comunidad o localidad & Obligatorio & «Indique la comunidad donde vive.» \\
+Dirección o referencia & Opcional & --- \\
+Rol & Obligatorio & «El caso necesita al menos una persona que lo solicite.» \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+La comunidad es obligatoria y la dirección no, porque la comunidad se usa para buscar y para detectar personas repetidas, y casi siempre se conoce.
+
+\subsection{Criterios de «requiere atención»}
+
+Se calculan solos y se muestran escritos en la lista y en Inicio: \textbf{cita vencida} (la próxima fecha ya pasó y no hay un avance posterior), \textbf{cita hoy}, y \textbf{15 días o más sin avances} en estado En trámite o En conciliación.
+
+\subsection{Por qué existe el estado «En conciliación»}
+
+El enunciado pide los estados del caso sin fijarlos. Se agrega En conciliación porque la conciliación es la vía principal del juez de paz según la Ley 29824, y distingue los casos con diálogo entre partes en curso de los que solo están registrados. Sin ese estado, la jueza no podría separar los dos grupos al filtrar.
+
+\input{generado/modulo1.tex}
+
+\section{Módulo 2 · Actuaciones}
+
+\subsection{Dos dimensiones separadas}
+
+El estado de atención (\textbf{Pendiente}, \textbf{Atendida}, \textbf{Concluida}) lo elige la jueza y responde a en qué punto va el trámite. El estado del registro (\textbf{Borrador} o \textbf{Completo}) es automático y responde a si faltan datos. Los dos se muestran juntos en el encabezado del formulario, cada uno con su rótulo.
+
+En la pantalla, los tres estados de atención van explicados en una línea: Pendiente = la persona lo pidió, aún no se atiende; Atendida = ya se atendió, falta entregar; Concluida = ya se entregó.
+
+\subsection{Campos del trámite}
+
+\begin{center}
+\small
+\begin{tabular}{@{}p{3.0cm}p{2.4cm}p{8.8cm}@{}}
+\toprule
+\textbf{Campo} & \textbf{Obligatoriedad} & \textbf{Validación y mensaje} \\
+\midrule
+Código & Automático & \texttt{NOT-TAB01-202605-0007}, generado en la tableta \\
+Fecha de solicitud & Obligatorio & «La fecha de solicitud no puede ser posterior a hoy.» \\
+Tipo de actuación & Obligatorio & «Elija qué trámite le piden.» \\
+Descripción o asunto & Obligatorio & «Cuente en pocas palabras qué necesita la persona.» \\
+Estado de atención & Obligatorio & Prellenado en Pendiente \\
+Fecha de atención & Condicional & Desde Atendida. «La atención no puede ser antes de la solicitud.» \\
+Resultado & Condicional & Para Concluida. «Para concluir, escriba qué se entregó o qué constancia se emitió.» \\
+Fecha de entrega & Condicional & Para Concluida. «La entrega no puede ser antes de la atención.» \\
+Observaciones & Opcional & --- \\
+Documentos & Opcional & Foto o referencia al documento físico \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+Los participantes usan los mismos campos que las partes del caso, con la participación: Solicitante, Declarante o Testigo.
+
+\subsection{Catálogo de trámites}
+
+Se toma de las competencias notariales del juez de paz en la Ley 29824. Cada tarjeta muestra la etiqueta cotidiana como título y el término legal en gris debajo.
+
+\begin{center}
+\small
+\begin{tabular}{@{}p{7.6cm}p{7.2cm}@{}}
+\toprule
+\textbf{Etiqueta cotidiana} & \textbf{Término legal} \\
+\midrule
+Certificar una firma & Legalización de firma \\
+Certificar una copia de documento & Copia certificada \\
+Constancia de que vive en un lugar & Constancia domiciliaria \\
+Constancia de que una persona sigue con vida & Constancia de supervivencia \\
+Constancia de que ocupa un terreno & Constancia de posesión \\
+Constancia de que viven juntos & Constancia de convivencia \\
+Documento de venta o traspaso de un bien & Transferencia de bienes, dentro de los montos que permite la ley \\
+Otra (escribir cuál) & --- \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+Se muestran los cuatro primeros y un botón \textbf{Ver más trámites}. El motivo no es solo reducir el número de opciones: con tarjetas descriptivas el problema real es la carga de lectura.
+
+\subsection{Personas y trámites repetidos}
+
+La aplicación compara por DNI si existe y, si no, por nombre parecido más la misma comunidad. Para trámites añade el mismo tipo y una fecha de solicitud dentro de siete días. Siempre \textbf{advierte sin bloquear}: muestra el registro parecido con sus datos y ofrece dos caminos. Sin Internet solo se detectan repetidos dentro de la tableta; los que existan en el Poder Judicial se revisan al enviar.
+
+\input{generado/modulo2.tex}
+
+\section{Módulo 3 · Agenda}
+
+\subsection{Vistas y categorías}
+
+Tres vistas con un selector grande: \textbf{Mes}, \textbf{Semana} y \textbf{Día}, más un botón \textbf{Hoy}. Las cuatro categorías llevan color, ícono y texto: Audiencia, Reunión, Visita a comunidad y Otra. Los tres estados también: Programada, Realizada y Cancelada, esta última con el texto tachado en gris.
+
+En la vista mes cada día muestra hasta tres actividades y cuenta el resto con «+2 más»; tocar el día abre la vista día.
+
+\subsection{Campos de la actividad}
+
+\begin{center}
+\small
+\begin{tabular}{@{}p{3.0cm}p{2.4cm}p{8.8cm}@{}}
+\toprule
+\textbf{Campo} & \textbf{Obligatoriedad} & \textbf{Validación y mensaje} \\
+\midrule
+Título & Obligatorio & Con sugerencias. «Escriba un nombre para la actividad.» \\
+Categoría & Obligatorio & «Elija el tipo de actividad.» \\
+Fecha & Obligatorio & Si es pasada, aviso que no bloquea \\
+Hora de inicio & Opcional & Casilla «Sin hora fija» \\
+Hora de término & Condicional & «La hora de término debe ser después de la de inicio.» \\
+Lugar o comunidad & Obligatorio & «Indique dónde será.» \\
+Descripción o motivo & Opcional & --- \\
+Estado & Obligatorio & Prellenado en Programada \\
+Vínculo & Opcional & Buscar un caso o un trámite \\
+Recordatorio & Opcional & Prellenado en «1 día antes» \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\subsection{Avisos y vínculo con los casos}
+
+Si la hora nueva choca con otra actividad, la aplicación lo dice mostrando cuál: «A esa hora ya tiene: Visita a Huayllay», y deja agendar igual. Los recordatorios se muestran dentro de la aplicación, no con las notificaciones del navegador. Cuando un caso recibe una próxima fecha de atención, la actividad se crea sola y queda vinculada; desde la actividad se vuelve al caso con un toque.
+
+\input{generado/modulo3.tex}
+
+\section{Envío al Poder Judicial y vista en computadora}
+
+\subsection{Cómo se envía}
+
+Al detectar Internet la aplicación \textbf{envía sola} y muestra el progreso; también existe el botón \textbf{Enviar ahora}. El envío automático se eligió porque a una usuaria con poca experiencia se le puede olvidar hacerlo a mano, y el resultado siempre se confirma. La tableta puede enviar desde cualquier lugar con Internet, no solo desde la sede.
+
+\subsection{Los cuatro resultados posibles}
+
+\begin{center}
+\small
+\begin{tabular}{@{}p{3.0cm}p{11.8cm}@{}}
+\toprule
+\textbf{Resultado} & \textbf{Qué dice la aplicación} \\
+\midrule
+Éxito total & «Se enviaron los 4 registros. Todo está guardado en el Poder Judicial.» \\
+Corte a mitad & «Se enviaron 2 de 4. Se cortó el Internet. Los otros 2 siguen seguros en la tableta.» Con Reintentar \\
+Error del servidor & «El Poder Judicial no respondió. Sus 4 registros siguen seguros en la tableta.» Con Reintentar \\
+Conflicto & Se aplica solo el cambio más reciente en cada campo y se informa cuál se usó. Con Ver y cambiar \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+Los cuatro mensajes dicen siempre dónde quedaron los registros. El conflicto se resuelve solo para no exigir una comparación campo por campo a una usuaria con poca experiencia digital; la versión descartada queda en el historial y se puede recuperar desde \textbf{Ver y cambiar}.
+
+\subsection{La vista en computadora}
+
+Es la misma aplicación adaptada a una pantalla de 1440 por 900, con tablas de más columnas y el verbo «Haz clic» en lugar de «Toca». Muestra únicamente lo que ya llegó al Poder Judicial y lo declara: «La tableta envió datos por última vez el 12/05, 18:40. Lo que registró después aún no aparece aquí.» Nunca afirma cuántos registros tiene pendientes la tableta, porque desde ahí eso no se puede saber. Desde la computadora también se consulta, crea y edita, y de ahí nacen los conflictos.
+
+\input{generado/envio.tex}
+
+\subsection{Las cuatro variantes del envío}
+
+\input{generado/variantes.tex}
+
+\section{Los flujos de la situación de uso}
+
+\input{generado/flujos.tex}
+
+\section{Estados especiales}
+
+Batería baja, tamaño de letra y orientación de la tableta.
+
+Al 20\,\% y al 10\,\% de batería la aplicación avisa recordando que lo registrado ya está guardado, e incluye \textbf{Enviar ahora} si hay Internet y quedan pendientes. En zonas rurales la energía es tan escasa como la conexión, y el aviso reduce la ansiedad por pérdida de datos.
+
+El tamaño de letra se cambia desde el menú con tres opciones (18, 21 y 24 píxeles) y se recuerda entre sesiones, por los usuarios mayores con presbicia. El diseño no se rompe en el tamaño mayor.
+
+La aplicación se usa solo en horizontal: el menú lateral, los formularios de tres pasos y la vista semanal necesitan ancho, y un solo diseño evita que la jueza tenga que reaprender dónde está cada cosa. Si se gira la tableta, aparece «Gire la tableta para usarla de lado» con una ilustración.
+
+\input{generado/especiales.tex}
+
+\section{Matriz de justificación}
+
+Cada fila es un elemento concreto de una pantalla, no un principio en abstracto. El número de cada fila coincide con el marcador numerado que aparece en las capturas anotadas de la sección siguiente.
+
+\begin{landscape}
+\input{generado/matriz.tex}
+\end{landscape}
+
+\subsection{Capturas anotadas}
+
+Las mismas pantallas con los marcadores visibles, que se obtienen agregando \texttt{?annotate=1} a la dirección.
+
+\input{generado/anotadas.tex}
+
+\section{Evidencia de factores humanos}
+
+Las dos tablas de esta sección no son estimaciones: las genera Playwright midiendo la aplicación publicada, pantalla por pantalla, y forman parte del repositorio.
+
+\subsection{Objetivos táctiles}
+
+Se midieron todos los botones, enlaces y campos de cada pantalla. El mínimo propio es de 48 por 48 píxeles con 8 píxeles o más de separación, por encima del piso de 44 por 44 que fija WCAG 2.5.5. La medición se repite con el tamaño de letra Grande, porque ahí es donde un diseño ajustado se rompe.
+
+\input{generado/tactil_resumen.tex}
+
+\input{generado/tactil.tex}
+
+\subsection{Contraste}
+
+\input{generado/contraste_resumen.tex}
+
+\input{generado/contraste.tex}
+
+\section{Alcance del prototipo}
+
+\subsection{Lo que funciona de verdad}
+
+El guardado local en el dispositivo, la generación de códigos sin conexión, la detección real de la conexión, la carga de la aplicación sin Internet después de la primera visita, las búsquedas, los filtros, las validaciones, la detección de personas y trámites repetidos, el guardado automático con recuperación, el cálculo de los casos que requieren atención, el aviso de cruce de horarios y el cambio de tamaño de letra.
+
+\subsection{Lo que está simulado}
+
+El servidor del Poder Judicial, el envío y sus resultados, los conflictos entre versiones, el cifrado de los datos locales, el desbloqueo por código telefónico y el nivel de batería. El dictado por voz no es parte del prototipo: depende del teclado del sistema.
+
+\subsection{Por qué no hay botón de micrófono}
+
+La API de voz del navegador envía el audio a un servidor en la mayoría de los casos y fallaría sin Internet, lo que contradiría el mensaje central de la aplicación. En su lugar, los campos de texto largo indican: «Puede hablar en vez de escribir: toque el micrófono del teclado.» La tableta se configura con el teclado del sistema y el paquete de español descargado, que dicta sin Internet. Es configuración del dispositivo, no del prototipo.
+
+\section{Limitaciones y trabajo futuro}
+
+\textbf{Idioma.} La interfaz está en español. Muchos jueces de paz y muchas de las personas que atienden hablan quechua o aimara. Dentro del diseño se mitiga con lenguaje simple, un ícono en cada acción y un resumen legible antes de guardar, pensado para leerlo en voz alta. La línea de trabajo siguiente es la interfaz y las ayudas en quechua y aimara, validadas con usuarios.
+
+\textbf{Orientación.} Solo horizontal, por las razones ya explicadas. Una tableta usada de pie quedaría fuera.
+
+\textbf{Pérdida del dispositivo.} Lo no enviado se pierde si la tableta se pierde o se daña. Por eso existe el recordatorio de los tres días. El cifrado de los datos locales y el borrado remoto están diseñados pero no implementados.
+
+\textbf{Pruebas con usuarios.} Ninguna decisión de este informe está validada con jueces de paz reales. Las justificaciones se apoyan en principios y en las condiciones del caso, no en evidencia de campo.
+
+\section{Plan de evaluación propuesto}
+
+\textbf{Participantes.} Cinco jueces de paz en ejercicio, de comunidades con conectividad intermitente, con la tableta de 10 pulgadas real.
+
+\textbf{Tareas.} Las cuatro de la situación de uso, en el mismo orden: registrar un conflicto vecinal con corte de conexión provocado a mitad, atender un trámite notarial, revisar las actividades de la semana, y agendar una reunión y enviar todo. Se añade actualizar el avance de un caso ya registrado.
+
+\textbf{Métricas.}
+
+\begin{center}
+\small
+\begin{tabular}{@{}p{4.6cm}p{10.2cm}@{}}
+\toprule
+\textbf{Métrica} & \textbf{Cómo se mide} \\
+\midrule
+Éxito por tarea & Porcentaje de participantes que la completa sin ayuda \\
+Tiempo por tarea & Del primer toque a la confirmación de guardado \\
+Errores & Veces que se usa un campo equivocado o se activa una validación \\
+Comprensión del estado & Se pregunta, sin mirar la pantalla, cuántos registros faltan enviar \\
+SUS & Cuestionario estándar de usabilidad al final de la sesión \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\textbf{Qué se observa además.} Si la jueza entiende que puede seguir trabajando sin Internet; si reconoce el significado de los tres distintivos sin que se los expliquen; si el resumen previo a guardar se usa realmente con las partes delante.
+
+No se incluyen conclusiones de esta evaluación porque todavía no se ha hecho.
+
+\section{Manifiesto de capturas}
+
+Las \input{generado/n_capturas.tex} capturas de este informe las genera Playwright de forma automática sobre la aplicación publicada, con la fecha congelada en el martes 12 de mayo de 2026 y los datos de ejemplo restablecidos antes de cada flujo. El archivo \texttt{informe/captures.json} del repositorio contiene esta misma tabla.
+
+\input{generado/manifiesto.tex}
+
+\end{document}
