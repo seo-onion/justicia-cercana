@@ -54,8 +54,8 @@ export const CATEGORIAS = [
 
 export const ESTADOS_ACTIVIDAD = [
   { id: 'programada', etiqueta: 'Programada', icono: 'Clock', color: 'azul' },
-  { id: 'realizada', etiqueta: 'Realizada', icono: 'CheckCircle2', color: 'verde' },
-  { id: 'cancelada', etiqueta: 'Cancelada', icono: 'XCircle', color: 'gris' }
+  { id: 'realizada', etiqueta: 'Realizada', icono: 'CircleCheckBig', color: 'verde' },
+  { id: 'cancelada', etiqueta: 'Cancelada', icono: 'CircleX', color: 'gris' }
 ]
 
 export const SUGERENCIAS_ACTIVIDAD = [

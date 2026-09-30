@@ -5,7 +5,7 @@ export function Ayuda({ texto }) {
   const [abierta, setAbierta] = useState(false)
   return (
     <>
-      <button type="button" className="btn btn-plano" style={{ minHeight: 32, minWidth: 32, padding: 4 }} aria-label="Qué va aquí" aria-expanded={abierta} onClick={() => setAbierta((a) => !a)}>
+      <button type="button" className="btn btn-plano"  aria-label="Qué va aquí" aria-expanded={abierta} onClick={() => setAbierta((a) => !a)}>
         <Icono n="CircleHelp" t={20} />
       </button>
       {abierta && <span className="pista">{texto}</span>}

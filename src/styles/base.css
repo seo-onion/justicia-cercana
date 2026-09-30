@@ -109,7 +109,7 @@ button, input, select, textarea { font: inherit; color: inherit; }
   padding: var(--e3);
   display: flex;
   flex-direction: column;
-  gap: var(--e1);
+  gap: var(--e2);
 }
 .nav-esp { flex: 1; }
 .nav a {
@@ -202,13 +202,13 @@ button, input, select, textarea { font: inherit; color: inherit; }
 .tarjeta-op[aria-pressed='true'] span { color: var(--azul); }
 
 /* ---------- campos ---------- */
-.campo { display: flex; flex-direction: column; gap: var(--e1); }
+.campo { display: flex; flex-direction: column; gap: var(--e2); }
 .campo > label, .campo > .campo-tit { font-weight: 700; font-size: var(--t-md); display: flex; align-items: center; gap: var(--e2); }
 .campo .opc { font-weight: 400; color: var(--texto-2); }
 .campo .cuando { font-size: var(--t-sm); color: var(--texto-2); }
 .campo .pista { font-size: var(--t-sm); color: var(--texto-2); }
 
-input[type='text'], input[type='number'], input[type='date'], input[type='time'], input[type='search'], select, textarea {
+input:not([type]), input[type='text'], input[type='number'], input[type='tel'], input[type='date'], input[type='time'], input[type='search'], select, textarea {
   min-height: var(--toque);
   padding: var(--e2) var(--e3);
   border: 1px solid var(--borde-fuerte);
@@ -222,7 +222,7 @@ input[aria-invalid='true'], textarea[aria-invalid='true'], select[aria-invalid='
 .error { display: flex; align-items: center; gap: var(--e2); color: var(--rojo); font-size: var(--t-sm); font-weight: 700; }
 
 .casilla { display: flex; align-items: center; gap: var(--e2); min-height: var(--toque); cursor: pointer; }
-.casilla input { width: 26px; height: 26px; accent-color: var(--azul); margin: 0; }
+.casilla input { width: 28px; height: 28px; accent-color: var(--azul); margin: 0; }
 
 .modificado { border: 2px solid var(--azul) !important; background: var(--azul-t); }
 

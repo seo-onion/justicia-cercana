@@ -1,0 +1,151 @@
+{
+  "minimo": 48,
+  "separacion": 8,
+  "filas": [
+    {
+      "pantalla": "P-00 Ingreso con PIN",
+      "letra": "normal",
+      "controles": 12,
+      "fallos": 0
+    },
+    {
+      "pantalla": "P-00b Introducción inicial",
+      "letra": "normal",
+      "controles": 2,
+      "fallos": 0
+    },
+    {
+      "pantalla": "P-01 Inicio",
+      "letra": "normal",
+      "controles": 19,
+      "fallos": 0
+    },
+    {
+      "pantalla": "P-02 Casos: lista y búsqueda",
+      "letra": "normal",
+      "controles": 27,
+      "fallos": 0
+    },
+    {
+      "pantalla": "P-03 Caso: nuevo",
+      "letra": "normal",
+      "controles": 28,
+      "fallos": 0
+    },
+    {
+      "pantalla": "P-04 Caso: detalle",
+      "letra": "normal",
+      "controles": 10,
+      "fallos": 0
+    },
+    {
+      "pantalla": "P-05 Actuaciones: lista y búsqueda",
+      "letra": "normal",
+      "controles": 34,
+      "fallos": 0
+    },
+    {
+      "pantalla": "P-06 Actuación: nueva",
+      "letra": "normal",
+      "controles": 23,
+      "fallos": 0
+    },
+    {
+      "pantalla": "P-07 Agenda",
+      "letra": "normal",
+      "controles": 32,
+      "fallos": 0
+    },
+    {
+      "pantalla": "P-08 Actividad: nueva",
+      "letra": "normal",
+      "controles": 38,
+      "fallos": 0
+    },
+    {
+      "pantalla": "P-09 Envío al Poder Judicial",
+      "letra": "normal",
+      "controles": 9,
+      "fallos": 0
+    },
+    {
+      "pantalla": "Ayuda Ayuda",
+      "letra": "normal",
+      "controles": 9,
+      "fallos": 0
+    },
+    {
+      "pantalla": "P-00 Ingreso con PIN",
+      "letra": "large",
+      "controles": 12,
+      "fallos": 0
+    },
+    {
+      "pantalla": "P-00b Introducción inicial",
+      "letra": "large",
+      "controles": 2,
+      "fallos": 0
+    },
+    {
+      "pantalla": "P-01 Inicio",
+      "letra": "large",
+      "controles": 19,
+      "fallos": 0
+    },
+    {
+      "pantalla": "P-02 Casos: lista y búsqueda",
+      "letra": "large",
+      "controles": 27,
+      "fallos": 0
+    },
+    {
+      "pantalla": "P-03 Caso: nuevo",
+      "letra": "large",
+      "controles": 28,
+      "fallos": 0
+    },
+    {
+      "pantalla": "P-04 Caso: detalle",
+      "letra": "large",
+      "controles": 10,
+      "fallos": 0
+    },
+    {
+      "pantalla": "P-05 Actuaciones: lista y búsqueda",
+      "letra": "large",
+      "controles": 34,
+      "fallos": 0
+    },
+    {
+      "pantalla": "P-06 Actuación: nueva",
+      "letra": "large",
+      "controles": 23,
+      "fallos": 0
+    },
+    {
+      "pantalla": "P-07 Agenda",
+      "letra": "large",
+      "controles": 32,
+      "fallos": 0
+    },
+    {
+      "pantalla": "P-08 Actividad: nueva",
+      "letra": "large",
+      "controles": 38,
+      "fallos": 0
+    },
+    {
+      "pantalla": "P-09 Envío al Poder Judicial",
+      "letra": "large",
+      "controles": 9,
+      "fallos": 0
+    },
+    {
+      "pantalla": "Ayuda Ayuda",
+      "letra": "large",
+      "controles": 9,
+      "fallos": 0
+    }
+  ],
+  "fallos": []
+}

@@ -39,8 +39,8 @@ export function MarcaEstadoActividad({ estado }) {
   return <Dist color={e.color} icono={e.icono} tachado={estado === 'cancelada'}>{e.etiqueta}</Dist>
 }
 
-export function MarcaCategoria({ categoría }) {
-  const c = CATEGORIAS.find((x) => x.id === categoría) || CATEGORIAS[3]
+export function MarcaCategoria({ categoria }) {
+  const c = CATEGORIAS.find((x) => x.id === categoria) || CATEGORIAS[3]
   return <Dist color={c.color} icono={c.icono}>{c.etiqueta}</Dist>
 }
 

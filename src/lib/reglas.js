@@ -79,7 +79,7 @@ export const atencion = (c, hoy = HOY) => {
     }
   }
   const sin = dias(ultimoAvance(c), hoy)
-  if (sin >= DIAS_SIN_AVANCE) return { motivo: `${sin} dias sin avance`, orden: 2 }
+  if (sin >= DIAS_SIN_AVANCE) return { motivo: `${sin} días sin avance`, orden: 2 }
   return null
 }
 

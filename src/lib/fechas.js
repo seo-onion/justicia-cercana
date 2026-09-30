@@ -3,8 +3,8 @@ import { params } from './params.js'
 export const HOY = params.today
 
 const MES = ['enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio', 'julio', 'agosto', 'setiembre', 'octubre', 'noviembre', 'diciembre']
-const DIA = ['domingo', 'lunes', 'martes', 'miercoles', 'jueves', 'viernes', 'sabado']
-const DIA_C = ['Domingo', 'Lunes', 'Martes', 'Miercoles', 'Jueves', 'Viernes', 'Sabado']
+const DIA = ['domingo', 'lunes', 'martes', 'miércoles', 'jueves', 'viernes', 'sábado']
+const DIA_C = ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado']
 
 export const aDate = (iso) => {
   const [a, m, d] = String(iso).slice(0, 10).split('-').map(Number)
@@ -33,10 +33,10 @@ export const nombreDiaC = (iso) => DIA_C[aDate(iso).getDay()]
 export const relativo = (iso) => {
   const d = dias(HOY, iso)
   if (d === 0) return 'hoy'
-  if (d === 1) return 'manana'
+  if (d === 1) return 'mañana'
   if (d === -1) return 'ayer'
-  if (d > 1) return `en ${d} dias`
-  return `hace ${-d} dias`
+  if (d > 1) return `en ${d} días`
+  return `hace ${-d} días`
 }
 
 export const conHora = (iso, hora) => (hora ? `${corto(iso)}, ${hora}` : corto(iso))
