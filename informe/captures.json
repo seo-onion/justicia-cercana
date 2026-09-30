@@ -130,9 +130,9 @@
     "pantalla": "P-09",
     "flujo": "Pantallas base",
     "paso": "Antes de enviar",
-    "demuestra": "Lista de registros por enviar y botón Enviar ahora",
+    "demuestra": "Lista de registros por enviar, quieta y sin haber empezado a enviar",
     "criterio": "Funcionamiento sin conexión",
-    "url": "?demo=1&pin=skip&reset=1&seed=mixto#/envio"
+    "url": "?demo=1&pin=skip&reset=1&seed=mixto&net=offline#/envio"
   },
   {
     "archivo": "P-10_computadora.png",
@@ -186,7 +186,7 @@
     "paso": "1. Inicio con Internet y todo enviado",
     "demuestra": "Punto de partida: barra en Con Internet y Todo enviado",
     "criterio": "Funcionamiento sin conexión",
-    "url": "?demo=1&pin=skip&reset=1&seed=base#/"
+    "url": "?demo=1&pin=skip&seed=base&freeze=1&reset=1#/"
   },
   {
     "archivo": "F1-02_caso-paso1.png",
@@ -195,7 +195,7 @@
     "paso": "2. Paso 1, el problema",
     "demuestra": "Código generado en la tableta y catálogo de tipos de problema en botones grandes",
     "criterio": "Cobertura y funcionamiento de los módulos",
-    "url": "?demo=1&pin=skip&reset=1&seed=base#/casos/nuevo"
+    "url": "?demo=1&pin=skip&seed=base&freeze=1&reset=1#/casos/nuevo"
   },
   {
     "archivo": "F1-03_caso-paso1-lleno.png",
@@ -204,7 +204,7 @@
     "paso": "2. Paso 1 completo",
     "demuestra": "Descripción con la ayuda para dictar desde el teclado, sin micrófono propio",
     "criterio": "Factores humanos y dispositivo",
-    "url": "?demo=1&pin=skip&reset=1&seed=base#/casos/nuevo"
+    "url": "?demo=1&pin=skip&seed=base&freeze=1&reset=1#/casos/nuevo"
   },
   {
     "archivo": "F1-04_corte-internet.png",
@@ -213,7 +213,7 @@
     "paso": "3. Se corta el Internet a mitad del formulario",
     "demuestra": "Aviso de corte sin alarma y barra en Sin Internet, en gris; el trabajo continúa",
     "criterio": "Funcionamiento sin conexión",
-    "url": "?demo=1&pin=skip&reset=1&seed=base#/casos/nuevo"
+    "url": "?demo=1&pin=skip&seed=base&freeze=1&reset=1#/casos/nuevo"
   },
   {
     "archivo": "F1-05_persona-1.png",
@@ -222,7 +222,7 @@
     "paso": "4. Primera parte, sin documento a la mano",
     "demuestra": "Opción No lo tiene a la mano en vez de obligar un DNI inventado",
     "criterio": "Principios de diseño y heurísticas",
-    "url": "?demo=1&pin=skip&reset=1&seed=base#/casos/nuevo"
+    "url": "?demo=1&pin=skip&seed=base&freeze=1&reset=1#/casos/nuevo"
   },
   {
     "archivo": "F1-06_error-rol.png",
@@ -231,7 +231,7 @@
     "paso": "6. Error de validación en lenguaje simple",
     "demuestra": "Mensaje que dice qué falta y cómo resolverlo, sin jerga",
     "criterio": "Principios de diseño y heurísticas",
-    "url": "?demo=1&pin=skip&reset=1&seed=base#/casos/nuevo"
+    "url": "?demo=1&pin=skip&seed=base&freeze=1&reset=1#/casos/nuevo"
   },
   {
     "archivo": "F1-07_duplicado.png",
@@ -240,7 +240,7 @@
     "paso": "5. Advertencia de persona duplicada",
     "demuestra": "Advierte sin bloquear y deja elegir entre usar sus datos o continuar",
     "criterio": "Principios de diseño y heurísticas",
-    "url": "?demo=1&pin=skip&reset=1&seed=base#/casos/nuevo"
+    "url": "?demo=1&pin=skip&seed=base&freeze=1&reset=1#/casos/nuevo"
   },
   {
     "archivo": "F1-08_personas.png",
@@ -249,7 +249,7 @@
     "paso": "5. Las dos partes con su rol",
     "demuestra": "Las partes quedan con rol y comunidad visibles",
     "criterio": "Cobertura y funcionamiento de los módulos",
-    "url": "?demo=1&pin=skip&reset=1&seed=base#/casos/nuevo"
+    "url": "?demo=1&pin=skip&seed=base&freeze=1&reset=1#/casos/nuevo"
   },
   {
     "archivo": "F1-09_resumen.png",
@@ -258,7 +258,7 @@
     "paso": "7. Resumen antes de guardar",
     "demuestra": "Resumen legible para leerlo en voz alta a las partes antes de guardar",
     "criterio": "Factores humanos y dispositivo",
-    "url": "?demo=1&pin=skip&reset=1&seed=base#/casos/nuevo"
+    "url": "?demo=1&pin=skip&seed=base&freeze=1&reset=1#/casos/nuevo"
   },
   {
     "archivo": "F1-10_confirmacion-guardado.png",
@@ -267,16 +267,16 @@
     "paso": "8. Confirmación de guardado",
     "demuestra": "La confirmación dice dónde quedó el caso y que también se agendó la cita",
     "criterio": "Funcionamiento sin conexión",
-    "url": "?demo=1&pin=skip&reset=1&seed=base#/casos/c-muncv7iy-0"
+    "url": "?demo=1&pin=skip&seed=base&freeze=1&reset=1#/casos/c-mune8rp8-0"
   },
   {
     "archivo": "F1-11_barra-pendientes.png",
     "pantalla": "P-01",
     "flujo": "Flujo 1",
     "paso": "8. Registros por enviar",
-    "demuestra": "El contador de la barra sube solo tras guardar sin Internet",
+    "demuestra": "El contador de la barra sube solo tras guardar sin Internet: 2 por enviar, el caso y su audiencia",
     "criterio": "Funcionamiento sin conexión",
-    "url": "?demo=1&pin=skip#/"
+    "url": "?demo=1&pin=skip&seed=base&freeze=1&reset=1#/"
   },
   {
     "archivo": "F2-01_tramite-paso1.png",
@@ -285,7 +285,7 @@
     "paso": "1. Catálogo de trámites",
     "demuestra": "Cuatro trámites primero, con término legal en gris, y Ver más trámites",
     "criterio": "Principios de diseño y heurísticas",
-    "url": "?demo=1&pin=skip&reset=1&seed=base#/actuaciones/nueva"
+    "url": "?demo=1&pin=skip&seed=base&freeze=1&reset=1#/actuaciones/nueva"
   },
   {
     "archivo": "F2-02_ver-mas.png",
@@ -294,7 +294,7 @@
     "paso": "1. Catálogo completo",
     "demuestra": "El resto del catálogo aparece sin salir del paso",
     "criterio": "Principios de diseño y heurísticas",
-    "url": "?demo=1&pin=skip&reset=1&seed=base#/actuaciones/nueva"
+    "url": "?demo=1&pin=skip&seed=base&freeze=1&reset=1#/actuaciones/nueva"
   },
   {
     "archivo": "F2-03_guardado-automatico.png",
@@ -303,7 +303,7 @@
     "paso": "2. Guardado automático",
     "demuestra": "El texto discreto avisa que lo escrito ya está guardado en la tableta",
     "criterio": "Funcionamiento sin conexión",
-    "url": "?demo=1&pin=skip&reset=1&seed=base#/actuaciones/nueva"
+    "url": "?demo=1&pin=skip&seed=base&freeze=1&reset=1#/actuaciones/nueva"
   },
   {
     "archivo": "F2-04_recuperacion.png",
@@ -312,7 +312,7 @@
     "paso": "3. La aplicación se cerró y se recupera",
     "demuestra": "Al volver, ofrece continuar el trámite sin terminar en vez de perderlo",
     "criterio": "Funcionamiento sin conexión",
-    "url": "?demo=1&pin=skip#/"
+    "url": "?demo=1&pin=skip&seed=base&freeze=1#/"
   },
   {
     "archivo": "F2-05_condicionales.png",
@@ -321,7 +321,7 @@
     "paso": "4. Campos condicionales",
     "demuestra": "Al pasar a Concluida aparecen los campos que se piden, con su línea explicativa",
     "criterio": "Principios de diseño y heurísticas",
-    "url": "?demo=1&pin=skip#/actuaciones/nueva"
+    "url": "?demo=1&pin=skip&seed=base&freeze=1#/actuaciones/nueva"
   },
   {
     "archivo": "F2-06_error-condicional.png",
@@ -330,7 +330,7 @@
     "paso": "4. Error de campo condicional",
     "demuestra": "No deja concluir sin decir qué se entregó, y lo explica en una frase",
     "criterio": "Principios de diseño y heurísticas",
-    "url": "?demo=1&pin=skip#/actuaciones/nueva"
+    "url": "?demo=1&pin=skip&seed=base&freeze=1#/actuaciones/nueva"
   },
   {
     "archivo": "F2-07_completo.png",
@@ -339,16 +339,16 @@
     "paso": "5. De Borrador a Completo",
     "demuestra": "El estado del registro pasa a Completo, separado del estado de atención",
     "criterio": "Cobertura y funcionamiento de los módulos",
-    "url": "?demo=1&pin=skip#/actuaciones/nueva"
+    "url": "?demo=1&pin=skip&seed=base&freeze=1#/actuaciones/nueva"
   },
   {
     "archivo": "F2-08_confirmacion.png",
     "pantalla": "P-05",
     "flujo": "Flujo 2",
     "paso": "6. Confirmación en la tableta",
-    "demuestra": "La confirmación dice dónde quedó y la barra sube su contador",
+    "demuestra": "La confirmación dice dónde quedó el trámite y la barra sube su contador a 3",
     "criterio": "Funcionamiento sin conexión",
-    "url": "?demo=1&pin=skip#/actuaciones"
+    "url": "?demo=1&pin=skip&seed=base&freeze=1#/actuaciones"
   },
   {
     "archivo": "F3-01_aviso-manana.png",
@@ -357,7 +357,7 @@
     "paso": "1. Aviso de lo de mañana",
     "demuestra": "El aviso de mañana aparece sin que la jueza tenga que ir a buscarlo",
     "criterio": "Principios de diseño y heurísticas",
-    "url": "?demo=1&pin=skip&reset=1&seed=base#/"
+    "url": "?demo=1&pin=skip&seed=base&freeze=1#/"
   },
   {
     "archivo": "F3-02_agenda-semana.png",
@@ -366,16 +366,16 @@
     "paso": "2. Vista semana",
     "demuestra": "Categorías con color, ícono y texto; estados de cada actividad",
     "criterio": "Principios de diseño y heurísticas",
-    "url": "?demo=1&pin=skip#/agenda"
+    "url": "?demo=1&pin=skip&seed=base&freeze=1#/agenda"
   },
   {
     "archivo": "F3-03_agenda-mes.png",
     "pantalla": "P-07",
     "flujo": "Flujo 3",
     "paso": "2. Vista mes",
-    "demuestra": "Vista mes con hasta 3 actividades por día y el resto contado",
+    "demuestra": "Vista mes con las actividades de cada día en píldoras de color y texto",
     "criterio": "Cobertura y funcionamiento de los módulos",
-    "url": "?demo=1&pin=skip#/agenda"
+    "url": "?demo=1&pin=skip&seed=base&freeze=1#/agenda"
   },
   {
     "archivo": "F3-04_agenda-dia.png",
@@ -384,7 +384,7 @@
     "paso": "3. Vista día",
     "demuestra": "Vista día con el detalle de cada actividad",
     "criterio": "Cobertura y funcionamiento de los módulos",
-    "url": "?demo=1&pin=skip#/agenda"
+    "url": "?demo=1&pin=skip&seed=base&freeze=1#/agenda"
   },
   {
     "archivo": "F3-05_actividad-detalle.png",
@@ -393,7 +393,7 @@
     "paso": "3. Detalle con su vínculo al caso",
     "demuestra": "La actividad muestra desde qué caso se creó y lleva a él",
     "criterio": "Cobertura y funcionamiento de los módulos",
-    "url": "?demo=1&pin=skip#/agenda"
+    "url": "?demo=1&pin=skip&seed=base&freeze=1#/agenda"
   },
   {
     "archivo": "F4-01_cruce-horario.png",
@@ -402,16 +402,16 @@
     "paso": "2. Aviso de cruce de horario",
     "demuestra": "Avisa qué actividad choca a esa hora, sin bloquear",
     "criterio": "Principios de diseño y heurísticas",
-    "url": "?demo=1&pin=skip&reset=1&seed=mixto#/agenda/nueva"
+    "url": "?demo=1&pin=skip&seed=base&freeze=1#/agenda/nueva"
   },
   {
     "archivo": "F4-02_guardada.png",
     "pantalla": "P-07",
     "flujo": "Flujo 4",
     "paso": "3. Actividad guardada en la tableta",
-    "demuestra": "Confirmación de guardado local y contador de la barra",
+    "demuestra": "Confirmación de guardado local y contador de la barra en 4",
     "criterio": "Funcionamiento sin conexión",
-    "url": "?demo=1&pin=skip&reset=1&seed=mixto#/agenda/nueva"
+    "url": "?demo=1&pin=skip&seed=base&freeze=1#/agenda"
   },
   {
     "archivo": "F4-03_vuelve-internet.png",
@@ -420,7 +420,34 @@
     "paso": "4. Vuelve el Internet",
     "demuestra": "Con Internet aparece el botón Enviar ahora en la barra y en la pantalla",
     "criterio": "Funcionamiento sin conexión",
-    "url": "?demo=1&pin=skip&seed=mixto#/envio"
+    "url": "?demo=1&pin=skip&seed=base&freeze=1#/envio"
+  },
+  {
+    "archivo": "F4-04_pendientes-del-dia.png",
+    "pantalla": "P-09",
+    "flujo": "Flujo 4",
+    "paso": "5. Los cuatro registros del día",
+    "demuestra": "La pantalla de envío lista lo que la jueza registró en el día: el caso, su audiencia, el trámite y la reunión",
+    "criterio": "Funcionamiento sin conexión",
+    "url": "?demo=1&pin=skip&seed=base&freeze=1#/envio"
+  },
+  {
+    "archivo": "F4-04b_progreso.png",
+    "pantalla": "P-09",
+    "flujo": "Flujo 4",
+    "paso": "6. Enviando",
+    "demuestra": "Progreso del envío de los cuatro registros del día",
+    "criterio": "Funcionamiento sin conexión",
+    "url": "?demo=1&pin=skip&seed=base&freeze=1#/envio?auto=1"
+  },
+  {
+    "archivo": "F4-05_exito.png",
+    "pantalla": "P-09",
+    "flujo": "Flujo 4",
+    "paso": "7. Envío completo",
+    "demuestra": "Se enviaron los 4 registros del día y la barra pasa a Todo enviado",
+    "criterio": "Funcionamiento sin conexión",
+    "url": "?demo=1&pin=skip&seed=base#/envio"
   },
   {
     "archivo": "P-09a_progreso.png",
@@ -475,6 +502,15 @@
     "demuestra": "La comparación campo por campo queda disponible, pero no es obligatoria",
     "criterio": "Principios de diseño y heurísticas",
     "url": "?demo=1&pin=skip&reset=1&seed=mixto&scenario=conflict#/envio?auto=1"
+  },
+  {
+    "archivo": "P-09g_sin-internet.png",
+    "pantalla": "P-09",
+    "flujo": "Envío",
+    "paso": "Sin Internet",
+    "demuestra": "Sin Internet el envío no es posible y se explica por qué, en gris y sin alarma; los registros siguen seguros en la tableta",
+    "criterio": "Funcionamiento sin conexión",
+    "url": "?demo=1&pin=skip&reset=1&seed=mixto&net=offline#/envio"
   },
   {
     "archivo": "FA-01_busqueda.png",

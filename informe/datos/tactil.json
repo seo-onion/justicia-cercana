@@ -145,6 +145,78 @@
       "letra": "large",
       "controles": 9,
       "fallos": 0
+    },
+    {
+      "pantalla": "P-00 Ingreso con PIN",
+      "letra": "xlarge",
+      "controles": 12,
+      "fallos": 0
+    },
+    {
+      "pantalla": "P-00b Introducción inicial",
+      "letra": "xlarge",
+      "controles": 2,
+      "fallos": 0
+    },
+    {
+      "pantalla": "P-01 Inicio",
+      "letra": "xlarge",
+      "controles": 19,
+      "fallos": 0
+    },
+    {
+      "pantalla": "P-02 Casos: lista y búsqueda",
+      "letra": "xlarge",
+      "controles": 27,
+      "fallos": 0
+    },
+    {
+      "pantalla": "P-03 Caso: nuevo",
+      "letra": "xlarge",
+      "controles": 28,
+      "fallos": 0
+    },
+    {
+      "pantalla": "P-04 Caso: detalle",
+      "letra": "xlarge",
+      "controles": 10,
+      "fallos": 0
+    },
+    {
+      "pantalla": "P-05 Actuaciones: lista y búsqueda",
+      "letra": "xlarge",
+      "controles": 34,
+      "fallos": 0
+    },
+    {
+      "pantalla": "P-06 Actuación: nueva",
+      "letra": "xlarge",
+      "controles": 23,
+      "fallos": 0
+    },
+    {
+      "pantalla": "P-07 Agenda",
+      "letra": "xlarge",
+      "controles": 32,
+      "fallos": 0
+    },
+    {
+      "pantalla": "P-08 Actividad: nueva",
+      "letra": "xlarge",
+      "controles": 38,
+      "fallos": 0
+    },
+    {
+      "pantalla": "P-09 Envío al Poder Judicial",
+      "letra": "xlarge",
+      "controles": 9,
+      "fallos": 0
+    },
+    {
+      "pantalla": "Ayuda Ayuda",
+      "letra": "xlarge",
+      "controles": 9,
+      "fallos": 0
     }
   ],
   "fallos": []
