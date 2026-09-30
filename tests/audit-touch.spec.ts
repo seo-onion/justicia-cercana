@@ -59,10 +59,10 @@ test('objetivos táctiles de 48x48 px con separación de 8 px', async ({ page })
   const fallos: Fallo[] = []
   const filas: any[] = []
 
-  for (const letra of ['normal', 'large']) {
+  for (const letra of ['normal', 'large', 'xlarge']) {
     for (const p of PANTALLAS) {
       if (p.id === 'P-10') continue
-      const url = letra === 'large' ? p.url.replace('demo=1', 'demo=1&font=large') : p.url
+      const url = letra === 'normal' ? p.url : p.url.replace('demo=1', `demo=1&font=${letra}`)
       await page.setViewportSize({ width: 1280, height: 800 })
       await page.goto(url)
       await page.waitForTimeout(600)

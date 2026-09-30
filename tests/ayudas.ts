@@ -30,11 +30,18 @@ export const quieto = async (page: Page, ms = 400) => {
   await page.waitForTimeout(ms)
 }
 
-export const capturar = async (page: Page, e: Omit<Entrada, 'url'> & { url?: string }) => {
+export const arriba = async (page: Page) => {
+  await page.evaluate(() => window.scrollTo(0, 0))
+  await quieto(page, 200)
+}
+
+export const capturar = async (page: Page, e: Omit<Entrada, 'url'> & { url?: string; completa?: boolean }) => {
+  const { completa, ...entrada } = e
   mkdirSync(DIR, { recursive: true })
+  if (!completa) await arriba(page)
   await quieto(page, 260)
-  await page.screenshot({ path: `${DIR}/${e.archivo}`, animations: 'disabled' })
-  MANIFIESTO.push({ ...e, url: e.url ?? page.url().split('/justicia-cercana/')[1] ?? page.url() })
+  await page.screenshot({ path: `${DIR}/${e.archivo}`, animations: 'disabled', fullPage: !!completa })
+  MANIFIESTO.push({ ...entrada, url: e.url ?? page.url().split('/justicia-cercana/')[1] ?? page.url() })
 }
 
 export const guardarManifiesto = () => {

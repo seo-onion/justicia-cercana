@@ -1,4 +1,4 @@
-import { test, expect } from '@playwright/test'
+import { test, expect, type Page } from '@playwright/test'
 import { abrir, capturar, guardarManifiesto, tocar, escribir, quieto, q } from './ayudas'
 
 const R = {
@@ -45,8 +45,8 @@ test('pantallas base P-00 a P-10', async ({ page }) => {
     await capturar(page, { archivo, pantalla, flujo: 'Pantallas base', paso: 'Estado normal', demuestra, criterio })
   }
 
-  await abrir(page, '/envio', { reset: 1, seed: 'mixto' })
-  await capturar(page, { archivo: 'P-09_envio-pendientes.png', pantalla: 'P-09', flujo: 'Pantallas base', paso: 'Antes de enviar', demuestra: 'Lista de registros por enviar y botón Enviar ahora', criterio: R.sinConexion })
+  await abrir(page, '/envio', { reset: 1, seed: 'mixto', net: 'offline' })
+  await capturar(page, { archivo: 'P-09_envio-pendientes.png', pantalla: 'P-09', flujo: 'Pantallas base', paso: 'Antes de enviar', demuestra: 'Lista de registros por enviar, quieta y sin haber empezado a enviar', criterio: R.sinConexion })
 
   await page.setViewportSize({ width: 1440, height: 900 })
   await abrir(page, '/pc', { reset: 1 })
@@ -67,9 +67,21 @@ test('barra de estado en sus 4 combinaciones', async ({ page }) => {
   }
 })
 
-test('flujo 1 · registrar un conflicto vecinal con corte de conexión', async ({ page, context }) => {
+const ir = async (page: Page, ruta: string) => {
+  await page.evaluate((r) => { location.hash = r }, `#${ruta}`)
+  await quieto(page, 500)
+}
+
+const cerrarAvisos = async (page: Page) => {
+  const x = page.getByRole('button', { name: 'Cerrar aviso' })
+  while (await x.count()) await x.first().click()
+  await quieto(page, 200)
+}
+
+test('jornada · flujos 1 a 4 encadenados en un solo día de trabajo', async ({ page, context }) => {
+  const DIA = { seed: 'base', freeze: 1 }
   await context.setOffline(false)
-  await abrir(page, '/', { reset: 1, seed: 'base' })
+  await abrir(page, '/', { ...DIA, reset: 1 })
   await capturar(page, { archivo: 'F1-01_inicio.png', pantalla: 'P-01', flujo: 'Flujo 1', paso: '1. Inicio con Internet y todo enviado', demuestra: 'Punto de partida: barra en Con Internet y Todo enviado', criterio: R.sinConexion })
 
   await tocar(page, 'Nuevo caso')
@@ -77,11 +89,14 @@ test('flujo 1 · registrar un conflicto vecinal con corte de conexión', async (
 
   await tocar(page, /Problemas entre vecinos/)
   await escribir(page, /Qué pasó/, 'Dos vecinos discuten porque uno cerró la acequia que lleva el agua a la chacra de abajo. Piden que se les escuche.')
+  await page.locator('.campo', { has: page.locator('textarea') }).getByRole('button', { name: /Qué va aquí/ }).first().click()
+  await quieto(page, 300)
   await capturar(page, { archivo: 'F1-03_caso-paso1-lleno.png', pantalla: 'P-03', flujo: 'Flujo 1', paso: '2. Paso 1 completo', demuestra: 'Descripción con la ayuda para dictar desde el teclado, sin micrófono propio', criterio: R.humanos })
 
   await context.setOffline(true)
   await quieto(page, 900)
   await capturar(page, { archivo: 'F1-04_corte-internet.png', pantalla: 'P-03', flujo: 'Flujo 1', paso: '3. Se corta el Internet a mitad del formulario', demuestra: 'Aviso de corte sin alarma y barra en Sin Internet, en gris; el trabajo continúa', criterio: R.sinConexion })
+  await cerrarAvisos(page)
 
   await tocar(page, 'Siguiente')
   await tocar(page, 'Agregar persona')
@@ -115,14 +130,15 @@ test('flujo 1 · registrar un conflicto vecinal con corte de conexión', async (
   await tocar(page, 'Guardar caso')
   await quieto(page, 700)
   await capturar(page, { archivo: 'F1-10_confirmacion-guardado.png', pantalla: 'P-04', flujo: 'Flujo 1', paso: '8. Confirmación de guardado', demuestra: 'La confirmación dice dónde quedó el caso y que también se agendó la cita', criterio: R.sinConexion })
+  await cerrarAvisos(page)
 
-  await abrir(page, '/')
-  await capturar(page, { archivo: 'F1-11_barra-pendientes.png', pantalla: 'P-01', flujo: 'Flujo 1', paso: '8. Registros por enviar', demuestra: 'El contador de la barra sube solo tras guardar sin Internet', criterio: R.sinConexion })
+  await ir(page, '/')
+  await capturar(page, { archivo: 'F1-11_barra-pendientes.png', pantalla: 'P-01', flujo: 'Flujo 1', paso: '8. Registros por enviar', demuestra: 'El contador de la barra sube solo tras guardar sin Internet: 2 por enviar, el caso y su audiencia', criterio: R.sinConexion })
+  await expect(page.getByText(/2 registros por enviar/).first()).toBeVisible()
   await context.setOffline(false)
-})
+  await quieto(page, 500)
 
-test('flujo 2 · atender un trámite con cierre inesperado y recuperación', async ({ page }) => {
-  await abrir(page, '/actuaciones/nueva', { reset: 1, seed: 'base' })
+  await ir(page, '/actuaciones/nueva')
   await capturar(page, { archivo: 'F2-01_tramite-paso1.png', pantalla: 'P-06', flujo: 'Flujo 2', paso: '1. Catálogo de trámites', demuestra: 'Cuatro trámites primero, con término legal en gris, y Ver más trámites', criterio: R.principios })
 
   await tocar(page, 'Ver más trámites')
@@ -141,9 +157,9 @@ test('flujo 2 · atender un trámite con cierre inesperado y recuperación', asy
   await quieto(page, 3400)
   await capturar(page, { archivo: 'F2-03_guardado-automatico.png', pantalla: 'P-06', flujo: 'Flujo 2', paso: '2. Guardado automático', demuestra: 'El texto discreto avisa que lo escrito ya está guardado en la tableta', criterio: R.sinConexion })
 
-  await page.goto(`${q()}#/actuaciones/nueva`)
+  await page.goto(`${q(DIA)}#/actuaciones/nueva`)
   await quieto(page, 900)
-  await abrir(page, '/')
+  await ir(page, '/')
   await capturar(page, { archivo: 'F2-04_recuperacion.png', pantalla: 'P-01', flujo: 'Flujo 2', paso: '3. La aplicación se cerró y se recupera', demuestra: 'Al volver, ofrece continuar el trámite sin terminar en vez de perderlo', criterio: R.sinConexion })
 
   await tocar(page, 'Continuar')
@@ -165,18 +181,18 @@ test('flujo 2 · atender un trámite con cierre inesperado y recuperación', asy
 
   await tocar(page, 'Guardar trámite')
   await quieto(page, 700)
-  await capturar(page, { archivo: 'F2-08_confirmacion.png', pantalla: 'P-05', flujo: 'Flujo 2', paso: '6. Confirmación en la tableta', demuestra: 'La confirmación dice dónde quedó y la barra sube su contador', criterio: R.sinConexion })
-})
+  await capturar(page, { archivo: 'F2-08_confirmacion.png', pantalla: 'P-05', flujo: 'Flujo 2', paso: '6. Confirmación en la tableta', demuestra: 'La confirmación dice dónde quedó el trámite y la barra sube su contador a 3', criterio: R.sinConexion })
+  await expect(page.getByText(/3 registros por enviar/).first()).toBeVisible()
+  await cerrarAvisos(page)
 
-test('flujo 3 · revisar las actividades de la semana', async ({ page }) => {
-  await abrir(page, '/', { reset: 1, seed: 'base' })
+  await ir(page, '/')
   await capturar(page, { archivo: 'F3-01_aviso-manana.png', pantalla: 'P-01', flujo: 'Flujo 3', paso: '1. Aviso de lo de mañana', demuestra: 'El aviso de mañana aparece sin que la jueza tenga que ir a buscarlo', criterio: R.principios })
 
-  await abrir(page, '/agenda')
+  await ir(page, '/agenda')
   await capturar(page, { archivo: 'F3-02_agenda-semana.png', pantalla: 'P-07', flujo: 'Flujo 3', paso: '2. Vista semana', demuestra: 'Categorías con color, ícono y texto; estados de cada actividad', criterio: R.principios })
 
   await tocar(page, 'Mes')
-  await capturar(page, { archivo: 'F3-03_agenda-mes.png', pantalla: 'P-07', flujo: 'Flujo 3', paso: '2. Vista mes', demuestra: 'Vista mes con hasta 3 actividades por día y el resto contado', criterio: R.cobertura })
+  await capturar(page, { archivo: 'F3-03_agenda-mes.png', pantalla: 'P-07', flujo: 'Flujo 3', paso: '2. Vista mes', demuestra: 'Vista mes con las actividades de cada día en píldoras de color y texto', criterio: R.cobertura, completa: true })
 
   await tocar(page, 'Día')
   await capturar(page, { archivo: 'F3-04_agenda-dia.png', pantalla: 'P-07', flujo: 'Flujo 3', paso: '3. Vista día', demuestra: 'Vista día con el detalle de cada actividad', criterio: R.cobertura })
@@ -187,38 +203,43 @@ test('flujo 3 · revisar las actividades de la semana', async ({ page }) => {
     await quieto(page, 400)
     await capturar(page, { archivo: 'F3-05_actividad-detalle.png', pantalla: 'P-07', flujo: 'Flujo 3', paso: '3. Detalle con su vínculo al caso', demuestra: 'La actividad muestra desde qué caso se creó y lleva a él', criterio: R.cobertura })
   }
-})
 
-test('flujo 4 · agendar una reunión y enviar todo', async ({ page, context }) => {
-  await abrir(page, '/agenda/nueva', { reset: 1, seed: 'mixto' })
   await context.setOffline(true)
+  await ir(page, '/agenda/nueva')
   await quieto(page, 800)
   await escribir(page, /Qué actividad es/, 'Reunión con autoridades comunales')
-  await tocar(page, 'Reunión')
-  const f = page.locator('input[type="date"]').first()
-  await f.fill('2026-05-14')
+  await tocar(page, 'Reunión', true)
+  await page.locator('input[type="date"]').first().fill('2026-05-14')
   const horas = page.locator('input[type="time"]')
-  if (await horas.count()) {
-    await horas.nth(0).fill('15:00')
-    if ((await horas.count()) > 1) await horas.nth(1).fill('16:00')
-  }
+  await horas.nth(0).fill('15:00')
+  await horas.nth(1).fill('16:00')
   await quieto(page, 600)
-  await capturar(page, { archivo: 'F4-01_cruce-horario.png', pantalla: 'P-08', flujo: 'Flujo 4', paso: '2. Aviso de cruce de horario', demuestra: 'Avisa qué actividad choca a esa hora, sin bloquear', criterio: R.principios })
+  await capturar(page, { archivo: 'F4-01_cruce-horario.png', pantalla: 'P-08', flujo: 'Flujo 4', paso: '2. Aviso de cruce de horario', demuestra: 'Avisa qué actividad choca a esa hora, sin bloquear', criterio: R.principios, completa: true })
 
-  if (await horas.count()) {
-    await horas.nth(0).fill('17:00')
-    if ((await horas.count()) > 1) await horas.nth(1).fill('18:00')
-  }
+  await horas.nth(0).fill('17:00')
+  await horas.nth(1).fill('18:00')
   await tocar(page, 'Huayllay')
   await quieto(page, 400)
   await tocar(page, 'Guardar actividad')
   await quieto(page, 700)
-  await capturar(page, { archivo: 'F4-02_guardada.png', pantalla: 'P-07', flujo: 'Flujo 4', paso: '3. Actividad guardada en la tableta', demuestra: 'Confirmación de guardado local y contador de la barra', criterio: R.sinConexion })
+  await capturar(page, { archivo: 'F4-02_guardada.png', pantalla: 'P-07', flujo: 'Flujo 4', paso: '3. Actividad guardada en la tableta', demuestra: 'Confirmación de guardado local y contador de la barra en 4', criterio: R.sinConexion })
+  await expect(page.getByText(/4 registros por enviar/).first()).toBeVisible()
+  await cerrarAvisos(page)
 
   await context.setOffline(false)
   await quieto(page, 900)
-  await abrir(page, '/envio', { seed: 'mixto' })
+  await ir(page, '/envio')
   await capturar(page, { archivo: 'F4-03_vuelve-internet.png', pantalla: 'P-09', flujo: 'Flujo 4', paso: '4. Vuelve el Internet', demuestra: 'Con Internet aparece el botón Enviar ahora en la barra y en la pantalla', criterio: R.sinConexion })
+  for (const c of ['JZ04-TAB01-202605-0013', 'NOT-TAB01-202605-0007', 'Reunión con autoridades comunales']) await expect(page.getByText(c).first()).toBeVisible()
+  await capturar(page, { archivo: 'F4-04_pendientes-del-dia.png', pantalla: 'P-09', flujo: 'Flujo 4', paso: '5. Los cuatro registros del día', demuestra: 'La pantalla de envío lista lo que la jueza registró en el día: el caso, su audiencia, el trámite y la reunión', criterio: R.sinConexion })
+
+  await tocar(page, 'Enviar ahora')
+  await quieto(page, 900)
+  await capturar(page, { archivo: 'F4-04b_progreso.png', pantalla: 'P-09', flujo: 'Flujo 4', paso: '6. Enviando', demuestra: 'Progreso del envío de los cuatro registros del día', criterio: R.sinConexion })
+
+  await page.goto(`${q({ seed: 'base' })}#/envio`)
+  await page.waitForFunction(() => document.body.innerText.includes('Se enviaron los 4 registros'), null, { timeout: 30_000 })
+  await capturar(page, { archivo: 'F4-05_exito.png', pantalla: 'P-09', flujo: 'Flujo 4', paso: '7. Envío completo', demuestra: 'Se enviaron los 4 registros del día y la barra pasa a Todo enviado', criterio: R.sinConexion })
 })
 
 test('variantes del envío al Poder Judicial', async ({ page }) => {
@@ -246,6 +267,9 @@ test('variantes del envío al Poder Judicial', async ({ page }) => {
     await quieto(page, 500)
     await capturar(page, { archivo: 'P-09f_ver-y-cambiar.png', pantalla: 'P-09', flujo: 'Envío', paso: 'Comparación por campo', demuestra: 'La comparación campo por campo queda disponible, pero no es obligatoria', criterio: R.principios })
   }
+
+  await abrir(page, '/envio', { reset: 1, seed: 'mixto', net: 'offline' })
+  await capturar(page, { archivo: 'P-09g_sin-internet.png', pantalla: 'P-09', flujo: 'Envío', paso: 'Sin Internet', demuestra: 'Sin Internet el envío no es posible y se explica por qué, en gris y sin alarma; los registros siguen seguros en la tableta', criterio: R.sinConexion })
 })
 
 test('flujo A · actualizar el avance de un caso', async ({ page }) => {
