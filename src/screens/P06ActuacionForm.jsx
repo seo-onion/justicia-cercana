@@ -88,7 +88,9 @@ export default function P06ActuacionForm({ id }) {
   }
   if (concluida && !form.resultado.trim()) err.resultado = 'Para concluir, escriba qué se entregó o qué constancia se emitió.'
   if (concluida && form.fechaEntrega && form.fechaAtencion && form.fechaEntrega < form.fechaAtencion) err.fechaEntrega = 'La entrega no puede ser antes de la atención.'
-  const mostrar = (k) => (ver ? err[k] : ['fechaSolicitud', 'fechaAtencion', 'fechaEntrega'].includes(k) ? err[k] : undefined)
+  if (atendida && !form.fechaAtencion) err.fechaAtencion = err.fechaAtencion || 'Escriba la fecha en que se atendió el trámite.'
+  if (concluida && !form.fechaEntrega) err.fechaEntrega = err.fechaEntrega || 'Escriba la fecha en que se entregó.'
+  const mostrar = (k) => (ver ? err[k] : ['fechaSolicitud'].includes(k) ? err[k] : undefined)
 
   const siguiente = () => {
     if (paso === 1) {
@@ -98,14 +100,24 @@ export default function P06ActuacionForm({ id }) {
     setPaso(paso + 1)
   }
 
-  const guardarTramite = () => {
-    setVer(true)
-    if (err.fechaSolicitud || err.fechaAtencion || err.fechaEntrega) return
+  const grabar = () => {
     cerrado.current = true
     const g = guardar('actuacion', form)
     actualizarMeta({ borrador: null })
     avisar({ tono: 'azul', icono: 'Check', titulo: `Trámite ${g.codigo} guardado en la tableta.`, texto: 'Se enviará cuando haya Internet.' })
     ir('/actuaciones')
+  }
+
+  const guardarBorrador = () => {
+    setVer(true)
+    if (err.fechaSolicitud) return
+    grabar()
+  }
+
+  const guardarTramite = () => {
+    setVer(true)
+    if (Object.keys(err).length) return
+    grabar()
   }
 
   const referencia = (form.documentos.find((d) => d.tipo === 'fisica') || {}).valor || ''
@@ -261,7 +273,7 @@ export default function P06ActuacionForm({ id }) {
         )}
         {paso < 3 && (
           <Nota id="27" etiqueta="span">
-            <button className="btn" onClick={guardarTramite}>Guardar como borrador</button>
+            <button className="btn" onClick={guardarBorrador}>Guardar como borrador</button>
           </Nota>
         )}
         {paso < 3 ? (

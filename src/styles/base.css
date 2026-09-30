@@ -235,8 +235,8 @@ input[aria-invalid='true'], textarea[aria-invalid='true'], select[aria-invalid='
   border-radius: 999px;
   font-size: var(--t-sm);
   font-weight: 700;
-  white-space: nowrap;
   border: 1px solid transparent;
+  text-align: left;
 }
 .dist-azul { background: var(--azul-t); color: var(--azul); border-color: #b9d1f2; }
 .dist-gris { background: var(--gris-t); color: var(--gris); border-color: var(--borde); }
@@ -279,9 +279,9 @@ input[aria-invalid='true'], textarea[aria-invalid='true'], select[aria-invalid='
   cursor: pointer;
 }
 .item:hover { background: var(--azul-t); }
-.item-tit { font-weight: 700; font-size: var(--t-md); }
+.item-tit { font-weight: 700; font-size: var(--t-md); overflow-wrap: anywhere; }
 .item-sub { font-size: var(--t-sm); color: var(--texto-2); }
-.item-marcas { display: flex; flex-wrap: wrap; gap: var(--e2); align-items: center; }
+.item-marcas { display: flex; flex-wrap: wrap; gap: var(--e2); align-items: center; justify-content: flex-end; flex: 0 1 auto; min-width: 0; max-width: 52%; }
 .codigo { font-variant-numeric: tabular-nums; font-size: var(--t-sm); color: var(--texto-2); }
 
 .vacio { padding: var(--e5); text-align: center; color: var(--texto-2); border: 1px dashed var(--borde); border-radius: var(--r); }

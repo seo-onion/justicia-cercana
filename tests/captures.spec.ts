@@ -141,7 +141,7 @@ test('flujo 2 · atender un trámite con cierre inesperado y recuperación', asy
   await quieto(page, 3400)
   await capturar(page, { archivo: 'F2-03_guardado-automatico.png', pantalla: 'P-06', flujo: 'Flujo 2', paso: '2. Guardado automático', demuestra: 'El texto discreto avisa que lo escrito ya está guardado en la tableta', criterio: R.sinConexion })
 
-  await page.reload()
+  await page.goto(`${q()}#/actuaciones/nueva`)
   await quieto(page, 900)
   await abrir(page, '/')
   await capturar(page, { archivo: 'F2-04_recuperacion.png', pantalla: 'P-01', flujo: 'Flujo 2', paso: '3. La aplicación se cerró y se recupera', demuestra: 'Al volver, ofrece continuar el trámite sin terminar en vez de perderlo', criterio: R.sinConexion })
@@ -158,9 +158,8 @@ test('flujo 2 · atender un trámite con cierre inesperado y recuperación', asy
   await capturar(page, { archivo: 'F2-06_error-condicional.png', pantalla: 'P-06', flujo: 'Flujo 2', paso: '4. Error de campo condicional', demuestra: 'No deja concluir sin decir qué se entregó, y lo explica en una frase', criterio: R.principios })
 
   await escribir(page, /Qué se entregó/, 'Se entregó la constancia de posesión firmada y sellada por el juzgado.')
-  const fechas = page.locator('input[type="date"]')
-  const n = await fechas.count()
-  for (let i = 1; i < n; i++) await fechas.nth(i).fill('2026-05-12')
+  await escribir(page, /Fecha de atención/, '2026-05-12')
+  await escribir(page, /Fecha de entrega/, '2026-05-12')
   await quieto(page, 400)
   await capturar(page, { archivo: 'F2-07_completo.png', pantalla: 'P-06', flujo: 'Flujo 2', paso: '5. De Borrador a Completo', demuestra: 'El estado del registro pasa a Completo, separado del estado de atención', criterio: R.cobertura })
 
@@ -191,8 +190,9 @@ test('flujo 3 · revisar las actividades de la semana', async ({ page }) => {
 })
 
 test('flujo 4 · agendar una reunión y enviar todo', async ({ page, context }) => {
+  await abrir(page, '/agenda/nueva', { reset: 1, seed: 'mixto' })
   await context.setOffline(true)
-  await abrir(page, '/agenda/nueva', { reset: 1, seed: 'mixto', net: 'offline' })
+  await quieto(page, 800)
   await escribir(page, /Qué actividad es/, 'Reunión con autoridades comunales')
   await tocar(page, 'Reunión')
   const f = page.locator('input[type="date"]').first()
